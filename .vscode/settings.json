@@ -1,0 +1,23 @@
+{
+    // Use 2 spaces (like Standard JS).
+    "editor.tabSize": 2,
+    // Files with 4-space indentation should be able to be opened and fixed.
+    "editor.detectIndentation": false,
+    // Show spaces as dots so we can see if anyone mistakenly adds tabs.
+    "editor.renderWhitespace": "all",
+    // Display a guide at the 100-character mark to discourage unreadably long lines.
+    "editor.rulers": [
+        150
+    ],
+    // Fix ESLint issues (without the aggressiveness of "editor.formatOnSave").
+    "eslint.autoFixOnSave": true,
+    // Make sure .java files' <script> blocks get linted.
+    "eslint.validate": [
+        "javascript",
+        "java"
+    ],
+    // Avoid "No newline at end of file" warnings in GitLab.
+    "files.insertFinalNewline": true,
+    // Keep lines clean.
+    "files.trimTrailingWhitespace": true
+}

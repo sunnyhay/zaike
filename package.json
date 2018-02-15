@@ -1,0 +1,27 @@
+{
+  "name": "zaike-server",
+  "version": "1.0.0",
+  "description": "nodejs server for zaike",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://sunnyhay1@bitbucket.org/sunnyhay1/zaike.git"
+  },
+  "keywords": [
+    "zaike"
+  ],
+  "author": "Harry Sun",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/sunnyhay1/zaike#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0"
+  }
+}
