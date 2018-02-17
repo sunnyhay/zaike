@@ -1,0 +1,8 @@
+{
+  "host": "localhost",
+  "port": 27017,
+  "db": {
+    "name": "test",
+    "review_table": "review"
+  }
+}
