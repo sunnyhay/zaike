@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const app = express();
 app.use(cookieParser());
 
+const lib = require("./lib/db");
+
 
 app.get("/", function (req, res) {
   res.send("Hello Jerry Sun");
@@ -27,6 +29,18 @@ app.delete("/del_user", function (req, res) {
 app.get("/list_user", function (req, res) {
   console.log("Got a GET request for /list_user");
   res.send("Page Listing");
+});
+
+// This responds a GET request for the /getDocs page.
+app.get("/getDocs", function (req, res) {
+  console.log("Got a GET request for /getDocs");
+  lib.getDocs().then(result => {
+    console.info("final result: " + JSON.stringify(result));
+    res.send(JSON.stringify(result));
+  }).catch(e => {
+    console.error(e);
+    res.send(e);
+  });
 });
 
 // This responds a GET request for abcd, abxcd, ab123cd, and so on
