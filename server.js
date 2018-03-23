@@ -8,6 +8,8 @@ const lib = require("./lib/db");
 const logger = require("./lib/logger");
 const log = logger.getLogger("server");
 
+const tucaoRouter = require("./route/tucao");
+
 const app = express();
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +22,9 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: true }
 }));
+
+// add more middleware
+app.use("/tucao", tucaoRouter);
 
 app.get("/", function (req, res) {
   res.send("Hello Jerry Sun");
