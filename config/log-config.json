@@ -1,0 +1,29 @@
+{
+  "appenders": {
+    "console": {
+      "type": "console"
+    },
+    "zaikeLogs": {
+      "type": "dateFile",
+      "filename": "./logs/zaike.log",
+      "pattern": "yyyy-MM-dd",
+      "maxLogSize": "102400",
+      "numBackups": 5
+    }
+  },
+  "categories": {
+    "zaike": {
+      "appenders": [
+        "zaikeLogs"
+      ],
+      "level": "debug"
+    },
+    "default": {
+      "appenders": [
+        "console",
+        "zaikeLogs"
+      ],
+      "level": "trace"
+    }
+  }
+}

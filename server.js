@@ -1,58 +1,45 @@
-const express = require("express");
-const cookieParser = require("cookie-parser");
 
-const app = express();
-app.use(cookieParser());
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const express = require("express");
+const session = require("express-session");
 
 const lib = require("./lib/db");
+const logger = require("./lib/logger");
+const log = logger.getLogger("server");
 
+const app = express();
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({
+  secret: "zaike",
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
 app.get("/", function (req, res) {
   res.send("Hello Jerry Sun");
-  console.log("Cookies: ", req.cookies);
-
-});
-
-// This responds a POST request for the homepage
-app.post("/", function (req, res) {
-  console.log("Got a POST request for the homepage");
-  res.send("Hello POST");
-});
-
-// This responds a DELETE request for the /del_user page.
-app.delete("/del_user", function (req, res) {
-  console.log("Got a DELETE request for /del_user");
-  res.send("Hello DELETE");
-});
-
-// This responds a GET request for the /list_user page.
-app.get("/list_user", function (req, res) {
-  console.log("Got a GET request for /list_user");
-  res.send("Page Listing");
+  log.info("Cookies: ", req.cookies);
 });
 
 // This responds a GET request for the /getDocs page.
 app.get("/getDocs", function (req, res) {
-  console.log("Got a GET request for /getDocs");
+  log.log("Got a GET request for /getDocs");
   lib.getDocs().then(result => {
-    console.info("final result: " + JSON.stringify(result));
+    log.info("final result: " + JSON.stringify(result));
     res.send(JSON.stringify(result));
   }).catch(e => {
-    console.error(e);
+    log.error(e);
     res.send(e);
   });
 });
 
-// This responds a GET request for abcd, abxcd, ab123cd, and so on
-app.get("/ab*cd", function(req, res) {
-  console.log("Got a GET request for /ab*cd");
-  res.send("Page Pattern Match");
-});
-
-let server = app.listen(8081, function () {
-
-  let host = server.address().address;
-  let port = server.address().port;
-
-  console.log("Example app listening at http://%s:%s", host, port);
+const server = app.listen(8081, function () {
+  const host = server.address().address;
+  const port = server.address().port;
+  log.info("Example app listening at http://%s:%s", host, port);
 });

@@ -2,7 +2,7 @@
   "host": "localhost",
   "port": 27017,
   "db": {
-    "name": "test",
+    "name": "zaike",
     "review_table": "review"
   }
 }
