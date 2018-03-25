@@ -1,14 +1,19 @@
 
+// lib
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const session = require("express-session");
 
-const lib = require("./lib/db");
+// own lib
+const initDatabases = require("./lib/db");
 const logger = require("./lib/logger");
 const log = logger.getLogger("server");
+const routes = require("./routes");
 
-const tucaoRouter = require("./route/tucao");
+// configuration
+const config = require("./config/config.json");
+const port = config.dev_env.port;
 
 const app = express();
 // parse application/x-www-form-urlencoded
@@ -23,28 +28,14 @@ app.use(session({
   cookie: { secure: true }
 }));
 
-// add more middleware
-app.use("/tucao", tucaoRouter);
 
-app.get("/", function (req, res) {
-  res.send("Hello Jerry Sun");
-  log.info("Cookies: ", req.cookies);
+// initialize database and then start the server
+initDatabases().then(dbs => {
+  // Initialize the application once database connections are ready.
+  routes(app, dbs).listen(port, () => log.info(`Listening on port ${port}`));
+}).catch(err => {
+  log.error("Failed to make all database connections!");
+  log.error(err);
+  process.exit(1);
 });
 
-// This responds a GET request for the /getDocs page.
-app.get("/getDocs", function (req, res) {
-  log.log("Got a GET request for /getDocs");
-  lib.getDocs().then(result => {
-    log.info("final result: " + JSON.stringify(result));
-    res.send(JSON.stringify(result));
-  }).catch(e => {
-    log.error(e);
-    res.send(e);
-  });
-});
-
-const server = app.listen(8081, function () {
-  const host = server.address().address;
-  const port = server.address().port;
-  log.info("Example app listening at http://%s:%s", host, port);
-});
