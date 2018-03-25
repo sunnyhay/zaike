@@ -6,6 +6,7 @@ const router = express.Router();
 // own lib
 const logger = require("../lib/logger");
 const log = logger.getLogger("tucao");
+const dbUtil = require("../lib/db-util");
 
 // configuration
 const config = require("../config/config.json");
@@ -22,9 +23,13 @@ module.exports = function(db) {
 
   router.get("/", (req, res) => {
     // Find some documents
-    collection.find({}).toArray(function (err, docs) {
-      log.info("Found the following records");
-      log.info(docs);
+    const option = {
+      collection: collection,
+      query: {},
+      type: "find"
+    };
+    dbUtil(db, option, (err, docs) => {
+      if (err) res.send(err);
       res.send(docs);
     });
   });
@@ -39,10 +44,14 @@ module.exports = function(db) {
     record.modified = new Date();
     log.info(record);
 
-    collection.insertOne(record, (err, r) => {
+    const option = {
+      collection: collection,
+      item: record,
+      type: "insertOne"
+    };
+    dbUtil(db, option, (err, result) => {
       if (err) res.send(err);
-      log.info(r);
-      res.send(r);
+      res.send(result);
     });
   });
 
