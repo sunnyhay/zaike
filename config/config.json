@@ -5,7 +5,7 @@
     "mongo_port": 27017,
     "db": {
       "name": "zaike",
-      "tucao_table": "review"
+      "tucao_table": "tucao"
     }
   }
 }
