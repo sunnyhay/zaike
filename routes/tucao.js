@@ -7,13 +7,14 @@ const router = express.Router();
 const logger = require("../lib/logger");
 const log = logger.getLogger("tucao");
 const dbUtil = require("../lib/db-util");
+const api = require("../lib/api");
 
 // configuration
 const config = require("../config/config.json");
 // target table
 const tucao_table = config.dev_env.db.tucao_table;
 
-module.exports = function(db) {
+module.exports = function (db) {
   // middleware that is specific to this router
   // router.use(function (req, res, next) {
   //   log.log("Time: ", Date.now());
@@ -28,9 +29,10 @@ module.exports = function(db) {
       query: {},
       type: "find"
     };
-    dbUtil(db, option, (err, docs) => {
-      if (err) res.send(err);
-      res.send(docs);
+    api.find(db, option).then(result => {
+      res.send(result);
+    }).catch(err => {
+      res.send(err);
     });
   });
 
@@ -49,9 +51,14 @@ module.exports = function(db) {
       item: record,
       type: "insertOne"
     };
-    dbUtil(db, option, (err, result) => {
-      if (err) res.send(err);
+    // dbUtil(db, option, (err, result) => {
+    //   if (err) res.send(err);
+    //   res.send(result);
+    // });
+    dbUtil(db, option).then(result => {
       res.send(result);
+    }).catch(err => {
+      res.send(err);
     });
   });
 
