@@ -5,14 +5,14 @@ const router = express.Router();
 
 // own lib
 const logger = require("../lib/logger");
-const log = logger.getLogger("tucao-routes");
+const log = logger.getLogger("city-routes");
 const dbUtil = require("../lib/db-util");
 const api = require("../lib/api");
 
 // configuration
 const config = require("../config/config.json");
 // target table
-const tucao_table = config.dev_env.db.tucao_table;
+const city_table = config.dev_env.db.city_table;
 
 module.exports = function (db) {
   // middleware that is specific to this router
@@ -20,7 +20,7 @@ module.exports = function (db) {
   //   log.log("Time: ", Date.now());
   //   next();
   // });
-  const collection = db.collection(tucao_table);
+  const collection = db.collection(city_table);
 
   router.get("/", (req, res) => {
     // Find some documents
@@ -37,9 +37,10 @@ module.exports = function (db) {
   });
 
   /*
-  吐槽entry有ID，用户ID，用户昵称，城市ID，城市名称，景区ID，景区名称，总体宰客评分，吃住行购物其他这五方面的分数，
-  正文，点赞数目，回复留言数组包含所有针对该吐槽的留言，创建时间，修改时间，删除软标志，重要等级（人工设置辅助）
+  城市entry有名称、id, 所属省市、总体差评数组（长度5，index从0到4分别对应1分到5分），各项分类差评数组（类似总体差评）、介绍文字、
+  介绍图片、联系方式和投诉方式、标签组、经纬度, 景区列表。
   */
+
   router.post("/", (req, res) => {
     const record = req.body;
     record.created = new Date();

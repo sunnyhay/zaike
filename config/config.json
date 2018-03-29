@@ -5,7 +5,10 @@
     "mongo_port": 27017,
     "db": {
       "name": "zaike",
-      "tucao_table": "tucao"
+      "tucao_table": "tucao",
+      "city_table": "city",
+      "province_table": "province",
+      "resort_table": "resort"
     }
   }
 }
