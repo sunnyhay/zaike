@@ -8,7 +8,8 @@
       "tucao_table": "tucao",
       "city_table": "city",
       "province_table": "province",
-      "resort_table": "resort"
+      "resort_table": "resort",
+      "user_table": "user"
     }
   }
 }

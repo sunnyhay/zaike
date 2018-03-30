@@ -5,13 +5,14 @@ module.exports = function(app, dbs) {
   const cityRouter = require("./city")(db);
   const provinceRouter = require("./province")(db);
   const resortRouter = require("./resort")(db);
+  const userRouter = require("./user")(db);
 
   // add more middleware
   app.use("/tucao", tucaoRouter);
   app.use("/city", cityRouter);
   app.use("/province", provinceRouter);
   app.use("/resort", resortRouter);
-
+  app.use("/user", userRouter);
 
   return app;
 };

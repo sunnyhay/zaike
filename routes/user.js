@@ -5,13 +5,14 @@ const router = express.Router();
 
 // own lib
 const logger = require("../lib/logger");
-const log = logger.getLogger("tucao-routes");
+const log = logger.getLogger("user-routes");
+const dbUtil = require("../lib/db-util");
 const api = require("../lib/api");
 
 // configuration
 const config = require("../config/config.json");
 // target table
-const tucao_table = config.dev_env.db.tucao_table;
+const user_table = config.dev_env.db.user_table;
 
 module.exports = function (db) {
   // middleware that is specific to this router
@@ -19,7 +20,7 @@ module.exports = function (db) {
   //   log.log("Time: ", Date.now());
   //   next();
   // });
-  const collection = db.collection(tucao_table);
+  const collection = db.collection(user_table);
 
   router.get("/", (req, res) => {
     // Find some documents
@@ -36,9 +37,10 @@ module.exports = function (db) {
   });
 
   /*
-  吐槽entry有ID，用户ID，用户昵称，城市ID，城市名称，景区ID，景区名称，总体宰客评分，吃住行购物其他这五方面的分数，
-  正文，点赞数目，回复留言数组包含所有针对该吐槽的留言，创建时间，修改时间，删除软标志，重要等级（人工设置辅助）
+  用户的entry含一个关注景区或城市的数组，由一个全局的常量来控制最多关注的数量比如5个，
+  也含有一个吐槽的数组，昵称，用户名，注册邮件，吐槽数量和等级。
   */
+
   router.post("/", (req, res) => {
     const record = req.body;
     record.created = new Date();
@@ -47,10 +49,11 @@ module.exports = function (db) {
 
     const option = {
       collection: collection,
-      item: record
+      item: record,
+      type: "insertOne"
     };
 
-    api.insertTucao(db, option).then(result => {
+    dbUtil(db, option).then(result => {
       res.send(result);
     }).catch(err => {
       res.send(err);
