@@ -10,6 +10,48 @@
       "province_table": "province",
       "resort_table": "resort",
       "user_table": "user"
-    }
+    },
+    "user_levels": [
+      {
+        "name": "布衣",
+        "medal": "灰铅",
+        "val": 0
+      },
+      {
+        "name": "秀才",
+        "medal": "赤铁",
+        "val": 1
+      },
+      {
+        "name": "举人",
+        "medal": "青铜",
+        "val": 5
+      },
+      {
+        "name": "进士",
+        "medal": "白银",
+        "val": 10
+      },
+      {
+        "name": "翰林",
+        "medal": "黄金",
+        "val": 25
+      },
+      {
+        "name": "尚书",
+        "medal": "水晶",
+        "val": 50
+      },
+      {
+        "name": "宰相",
+        "medal": "钻石",
+        "val": 100
+      },
+      {
+        "name": "天尊",
+        "medal": "皇冠",
+        "val": 250
+      }
+    ]
   }
 }

@@ -16,6 +16,8 @@ const config = require("./config/config.json");
 const port = config.dev_env.port;
 
 const app = express();
+// set runtime config from config.json
+app.set("globalConfig", config);
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json

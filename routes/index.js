@@ -1,11 +1,16 @@
 
-module.exports = function(app, dbs) {
+module.exports = function (app, dbs) {
   const db = dbs.dev;
-  const tucaoRouter = require("./tucao")(db);
-  const cityRouter = require("./city")(db);
-  const provinceRouter = require("./province")(db);
-  const resortRouter = require("./resort")(db);
-  const userRouter = require("./user")(db);
+  const config = app.get("globalConfig");
+  const option = {
+    db: db,
+    config: config
+  };
+  const tucaoRouter = require("./tucao")(option);
+  const cityRouter = require("./city")(option);
+  const provinceRouter = require("./province")(option);
+  const resortRouter = require("./resort")(option);
+  const userRouter = require("./user")(option);
 
   // add more middleware
   app.use("/tucao", tucaoRouter);

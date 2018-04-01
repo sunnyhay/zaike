@@ -8,18 +8,19 @@ const logger = require("../lib/logger");
 const log = logger.getLogger("city-routes");
 const dbUtil = require("../lib/db-util");
 const api = require("../lib/api");
+const util = require("../lib/util");
 
-// configuration
-const config = require("../config/config.json");
-// target table
-const city_table = config.dev_env.db.city_table;
 
-module.exports = function (db) {
+module.exports = function (option) {
   // middleware that is specific to this router
   // router.use(function (req, res, next) {
   //   log.log("Time: ", Date.now());
   //   next();
   // });
+  const db = option.db;
+  const config = option.config;
+  // target table
+  const city_table = config.dev_env.db.city_table;
   const collection = db.collection(city_table);
 
   router.get("/", (req, res) => {
@@ -42,12 +43,13 @@ module.exports = function (db) {
   */
 
   router.post("/", (req, res) => {
-    const record = req.body;
-    record.created = new Date();
-    record.modified = new Date();
+    let record = req.body;
+    record = util.setRecordDate(record);
     log.info(record);
 
     const option = {
+      curDate: record.modified,
+      config: config,
       collection: collection,
       item: record,
       type: "insertOne"
