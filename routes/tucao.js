@@ -50,7 +50,7 @@ module.exports = function (option) {
     record = util.setRecordDate(record);
 
     log.debug(record);
-    const option = {
+    const apiOption = {
       curDate: record.modified,
       config: config,
       collection: tucaoCol,
@@ -58,8 +58,8 @@ module.exports = function (option) {
       record: record
     };
 
-    api.insertTucao(db, option).then(result => {
-      res.send(result);
+    api.insertTucao(db, apiOption).then(result => {
+      res.json(result);
     }).catch(err => {
       res.send(err);
     });
