@@ -6,9 +6,10 @@
     "zaikeLogs": {
       "type": "dateFile",
       "filename": "./logs/zaike.log",
-      "pattern": "yyyy-MM-dd",
+      "pattern": ".yyyy-MM-dd",
       "maxLogSize": "102400",
-      "numBackups": 5
+      "numBackups": 5,
+      "keepFileExt": true
     }
   },
   "categories": {
