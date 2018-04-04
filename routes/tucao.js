@@ -45,6 +45,22 @@ module.exports = function (option) {
     });
   });
 
+  // find all tucao
+  router.get("/:id", (req, res) => {
+    // Find a document with its _id
+    log.error(req.params.id);
+    const option = {
+      collection: tucaoCol,
+      query: { _id: util.getObjectId(req.params.id) },
+      type: "find"
+    };
+    api.find(db, option).then(result => {
+      res.send(result);
+    }).catch(err => {
+      res.send(err);
+    });
+  });
+
   /*
   add a new tucao
   吐槽entry有ID，用户ID，用户昵称，城市ID，城市名称，景区ID，景区名称，总体宰客评分，吃住行购物其他这五方面的分数，
