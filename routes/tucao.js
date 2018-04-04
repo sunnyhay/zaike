@@ -20,10 +20,15 @@ module.exports = function (option) {
   // target table
   const tucao_table = config.dev_env.db.tucao_table;
   const user_table = config.dev_env.db.user_table;
-
+  const city_table = config.dev_env.db.city_table;
+  const province_table = config.dev_env.db.province_table;
+  const resort_table = config.dev_env.db.resort_table;
 
   const tucaoCol = db.collection(tucao_table);
   const userCol = db.collection(user_table);
+  const cityCol = db.collection(city_table);
+  const provinceCol = db.collection(province_table);
+  const resortCol = db.collection(resort_table);
 
   // find all tucao
   router.get("/", (req, res) => {
@@ -55,6 +60,9 @@ module.exports = function (option) {
       config: config,
       collection: tucaoCol,
       userCol: userCol,
+      cityCol: cityCol,
+      provinceCol: provinceCol,
+      resortCol: resortCol,
       record: record
     };
 
