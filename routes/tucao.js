@@ -23,12 +23,14 @@ module.exports = function (option) {
   const city_table = config.dev_env.db.city_table;
   const province_table = config.dev_env.db.province_table;
   const resort_table = config.dev_env.db.resort_table;
+  const comment_table = config.dev_env.db.comment_table;
 
   const tucaoCol = db.collection(tucao_table);
   const userCol = db.collection(user_table);
   const cityCol = db.collection(city_table);
   const provinceCol = db.collection(province_table);
   const resortCol = db.collection(resort_table);
+  const commentCol = db.collection(comment_table);
 
   // find all tucao
   router.get("/", (req, res) => {
@@ -96,6 +98,30 @@ module.exports = function (option) {
     };
 
     api.likeTucao(db, apiOption).then(result => {
+      res.json(result);
+    }).catch(err => {
+      res.send(err);
+    });
+  });
+
+  // comment the tucao
+  /*
+  留言entry有用户ID，用户昵称，回复类型：新闻或吐槽，新闻或者吐槽ID，正文，创建时间，修改时间，删除软标志。
+   */
+  router.post("/:id/comment", (req, res) => {
+    let comment = req.body;
+    comment = util.setRecordDate(comment);
+
+    log.debug(comment);
+    const apiOption = {
+      id: req.params.id,
+      curDate: comment.modified,
+      collection: commentCol,
+      tucaoCol: tucaoCol,
+      record: comment
+    };
+
+    api.commentTucao(db, apiOption).then(result => {
       res.json(result);
     }).catch(err => {
       res.send(err);
