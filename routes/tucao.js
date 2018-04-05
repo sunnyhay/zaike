@@ -45,10 +45,8 @@ module.exports = function (option) {
     });
   });
 
-  // find all tucao
+  // find a specific tucao by _id
   router.get("/:id", (req, res) => {
-    // Find a document with its _id
-    log.error(req.params.id);
     const option = {
       collection: tucaoCol,
       query: { _id: util.getObjectId(req.params.id) },
@@ -83,6 +81,21 @@ module.exports = function (option) {
     };
 
     api.insertTucao(db, apiOption).then(result => {
+      res.json(result);
+    }).catch(err => {
+      res.send(err);
+    });
+  });
+
+  // like the tucao
+  router.put("/:id/like", (req, res) => {
+    const apiOption = {
+      id: req.params.id,
+      curDate: new Date(),
+      collection: tucaoCol
+    };
+
+    api.likeTucao(db, apiOption).then(result => {
       res.json(result);
     }).catch(err => {
       res.send(err);
