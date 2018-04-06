@@ -1,14 +1,9 @@
 
 // own lib
-const logger = require("./logger");
-const log = logger.getLogger("api");
-const dbUtil = require("./db-util");
-const util = require("./util");
-
-async function find(db, option) {
-  const result = await dbUtil(db, option);
-  return result;
-}
+const logger = require("../lib/logger");
+const log = logger.getLogger("tucao-api");
+const dbUtil = require("../lib/db-util");
+const util = require("../lib/util");
 
 // given a tucao, need to do the following jobs
 // 1. add it into tucao table;
@@ -147,18 +142,10 @@ async function likeTucao(db, option) {
   return result;
 }
 
-async function updateUser(db, option) {
-  option.type = "updateOne";
-  let result = await dbUtil(db, option);
-  log.info(result);
-  return result;
-}
 
 
 module.exports = {
-  find,
   insertTucao,
   likeTucao,
-  commentTucao,
-  updateUser
+  commentTucao
 };

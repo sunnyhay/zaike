@@ -6,8 +6,8 @@ const router = express.Router();
 // own lib
 const logger = require("../lib/logger");
 const log = logger.getLogger("resort-routes");
-const dbUtil = require("../lib/db-util");
-const api = require("../lib/api");
+const api = require("../api/common-api");
+const resortApi = require("../api/resort-api");
 const util = require("../lib/util");
 
 
@@ -21,7 +21,10 @@ module.exports = function (option) {
   const config = option.config;
   // target table
   const resort_table = config.dev_env.db.resort_table;
+  const city_table = config.dev_env.db.city_table;
+
   const collection = db.collection(resort_table);
+  const cityCol = db.collection(city_table);
 
   router.get("/", (req, res) => {
     // Find some documents
@@ -47,16 +50,16 @@ module.exports = function (option) {
     record = util.setRecordDate(record);
     log.info(record);
 
-    const option = {
+    const apiOption = {
       curDate: record.modified,
-      config: config,
       collection: collection,
-      item: record,
+      cityCol: cityCol,
+      record: record,
       type: "insertOne"
     };
 
-    dbUtil(db, option).then(result => {
-      res.send(result);
+    resortApi.insertResort(db, apiOption).then(result => {
+      res.json(result);
     }).catch(err => {
       res.send(err);
     });

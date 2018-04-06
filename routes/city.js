@@ -6,8 +6,8 @@ const router = express.Router();
 // own lib
 const logger = require("../lib/logger");
 const log = logger.getLogger("city-routes");
-const dbUtil = require("../lib/db-util");
-const api = require("../lib/api");
+const api = require("../api/common-api");
+const cityApi = require("../api/city-api");
 const util = require("../lib/util");
 
 
@@ -21,7 +21,10 @@ module.exports = function (option) {
   const config = option.config;
   // target table
   const city_table = config.dev_env.db.city_table;
+  const province_table = config.dev_env.db.province_table;
+
   const collection = db.collection(city_table);
+  const provinceCol = db.collection(province_table);
 
   router.get("/", (req, res) => {
     // Find some documents
@@ -47,16 +50,16 @@ module.exports = function (option) {
     record = util.setRecordDate(record);
     log.info(record);
 
-    const option = {
+    const apiOption = {
       curDate: record.modified,
-      config: config,
       collection: collection,
-      item: record,
+      provinceCol: provinceCol,
+      record: record,
       type: "insertOne"
     };
 
-    dbUtil(db, option).then(result => {
-      res.send(result);
+    cityApi.insertCity(db, apiOption).then(result => {
+      res.json(result);
     }).catch(err => {
       res.send(err);
     });

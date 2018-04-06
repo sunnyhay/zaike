@@ -6,7 +6,8 @@ const router = express.Router();
 // own lib
 const logger = require("../lib/logger");
 const log = logger.getLogger("tucao-routes");
-const api = require("../lib/api");
+const api = require("../api/common-api");
+const tucaoApi = require("../api/tucao-api");
 const util = require("../lib/util");
 
 module.exports = function (option) {
@@ -82,7 +83,7 @@ module.exports = function (option) {
       record: record
     };
 
-    api.insertTucao(db, apiOption).then(result => {
+    tucaoApi.insertTucao(db, apiOption).then(result => {
       res.json(result);
     }).catch(err => {
       res.send(err);
@@ -97,7 +98,7 @@ module.exports = function (option) {
       collection: tucaoCol
     };
 
-    api.likeTucao(db, apiOption).then(result => {
+    tucaoApi.likeTucao(db, apiOption).then(result => {
       res.json(result);
     }).catch(err => {
       res.send(err);
@@ -121,7 +122,7 @@ module.exports = function (option) {
       record: comment
     };
 
-    api.commentTucao(db, apiOption).then(result => {
+    tucaoApi.commentTucao(db, apiOption).then(result => {
       res.json(result);
     }).catch(err => {
       res.send(err);

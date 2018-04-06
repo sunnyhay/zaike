@@ -7,7 +7,7 @@ const router = express.Router();
 const logger = require("../lib/logger");
 const log = logger.getLogger("user-routes");
 const dbUtil = require("../lib/db-util");
-const api = require("../lib/api");
+const api = require("../api/common-api");
 const util = require("../lib/util");
 
 
@@ -51,7 +51,7 @@ module.exports = function (option) {
       curDate: record.modified,
       config: config,
       collection: collection,
-      item: record,
+      record: record,
       type: "insertOne"
     };
 
