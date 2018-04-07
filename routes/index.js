@@ -11,6 +11,7 @@ module.exports = function (app, dbs) {
   const provinceRouter = require("./province")(option);
   const resortRouter = require("./resort")(option);
   const userRouter = require("./user")(option);
+  const adminRouter = require("./admin")(option);
 
   // add more middleware
   app.use("/tucao", tucaoRouter);
@@ -18,6 +19,7 @@ module.exports = function (app, dbs) {
   app.use("/province", provinceRouter);
   app.use("/resort", resortRouter);
   app.use("/user", userRouter);
+  app.use("/admin", adminRouter);
 
   return app;
 };

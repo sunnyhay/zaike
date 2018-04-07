@@ -22,14 +22,12 @@ module.exports = function (option) {
   const tucao_table = config.dev_env.db.tucao_table;
   const user_table = config.dev_env.db.user_table;
   const city_table = config.dev_env.db.city_table;
-  const province_table = config.dev_env.db.province_table;
   const resort_table = config.dev_env.db.resort_table;
   const comment_table = config.dev_env.db.comment_table;
 
   const tucaoCol = db.collection(tucao_table);
   const userCol = db.collection(user_table);
   const cityCol = db.collection(city_table);
-  const provinceCol = db.collection(province_table);
   const resortCol = db.collection(resort_table);
   const commentCol = db.collection(comment_table);
 
@@ -78,7 +76,6 @@ module.exports = function (option) {
       collection: tucaoCol,
       userCol: userCol,
       cityCol: cityCol,
-      provinceCol: provinceCol,
       resortCol: resortCol,
       record: record
     };
@@ -90,10 +87,28 @@ module.exports = function (option) {
     });
   });
 
+  // delete a tucao
+  router.delete("/:id", (req, res) => {
+    const apiOption = {
+      tucaoId: req.params.id,
+      curDate: new Date(),
+      collection: tucaoCol,
+      userCol: userCol,
+      cityCol: cityCol,
+      resortCol: resortCol
+    };
+
+    tucaoApi.deleteTucao(db, apiOption).then(result => {
+      res.json(result);
+    }).catch(err => {
+      res.send(err);
+    });
+  });
+
   // like the tucao
   router.put("/:id/like", (req, res) => {
     const apiOption = {
-      id: req.params.id,
+      tucaoId: req.params.id,
       curDate: new Date(),
       collection: tucaoCol
     };
@@ -115,7 +130,7 @@ module.exports = function (option) {
 
     log.debug(comment);
     const apiOption = {
-      id: req.params.id,
+      tucaoId: req.params.id,
       curDate: comment.modified,
       collection: commentCol,
       tucaoCol: tucaoCol,

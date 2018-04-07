@@ -17,8 +17,8 @@ async function insertTucao(db, option) {
   // 1. insert tucao
   option.type = "insertOne";
   let result = await dbUtil(db, option);
-  const tucaoId = result.insertedId;
-  log.info("New created tucao _id: " + tucaoId);
+  const objectId = result.insertedId;
+  log.info("New created tucao object id: " + objectId);
 
   // 2. update user
   // 2.1 find the user
@@ -87,7 +87,91 @@ async function insertTucao(db, option) {
     option.replace = resortRecord;
     result = await dbUtil(db, option);
   }
-  // 5. return _id of this tucao
+  // 5. return object id of this tucao. actually do not use the this
+  return objectId;
+}
+
+// given a tucaoId, need to do the following jobs
+// 1. read it from tucao table and delete it;
+// 2. remove it out of the user's tucao array, no action against tucaoNum and the user's level. update modified time.
+// 3. update city's tucao and other minor-tucao arrays, update modified time.
+// 4. if resort is not null, update resort's tucao and other minor-tucao arrays, update modified time.
+// 5. return the tucao's _id to sender (android app)
+async function deleteTucao(db, option) {
+  // 1. read the tucao and delete it from tucao table
+  // 1.1 get the tucao
+  const tucaoId = option.tucaoId;
+  option.type = "find";
+  option.query = { tucaoId: tucaoId };
+  let result = await dbUtil(db, option);
+  const tucaoRecord = result[0];
+  // 1.2 delete it
+  option.type = "deleteOne";
+  option.criteria = { tucaoId: tucaoId };
+  result = await dbUtil(db, option);
+
+  // 2. update user
+  // 2.1 find the user
+  const userId = tucaoRecord.userId;
+  option.type = "find";
+  option.query = { userId: userId };
+  option.collection = option.userCol;
+  result = await dbUtil(db, option);
+  const userRecord = result[0];
+  // 2.2 update the user
+  option.type = "findOneAndReplace";
+  option.criteria = { userId: userId };
+  userRecord.tucao = util.removeArrElem(userRecord.tucao, "tucaoId", tucaoId);
+  userRecord.modified = option.curDate;
+  option.replace = userRecord;
+  result = await dbUtil(db, option);
+
+  // 3. update the city
+  // 3.1 find the city
+  const cityId = tucaoRecord.cityId;
+  option.type = "find";
+  option.query = { cityId: cityId };
+  option.collection = option.cityCol;
+  result = await dbUtil(db, option);
+  const cityRecord = result[0];
+  // 3.2 update the city
+  option.type = "findOneAndReplace";
+  option.criteria = { cityId: cityId };
+  cityRecord.tucao[tucaoRecord.totalRating - 1]--;
+  cityRecord.funTucao[tucaoRecord.ratings.fun - 1]--;
+  cityRecord.eatTucao[tucaoRecord.ratings.eat - 1]--;
+  cityRecord.lodgeTucao[tucaoRecord.ratings.lodge - 1]--;
+  cityRecord.travelTucao[tucaoRecord.ratings.travel - 1]--;
+  cityRecord.shoppingTucao[tucaoRecord.ratings.shopping - 1]--;
+  cityRecord.otherTucao[tucaoRecord.ratings.other - 1]--;
+  cityRecord.modified = option.curDate;
+  option.replace = cityRecord;
+  result = await dbUtil(db, option);
+
+  // 4. if possible update the resort
+  if (tucaoRecord.resortId !== null) {
+    // 4.1 find the resort
+    const resortId = tucaoRecord.resortId;
+    option.type = "find";
+    option.query = { resortId: resortId };
+    option.collection = option.resortCol;
+    result = await dbUtil(db, option);
+    const resortRecord = result[0];
+    // 4.2 update the resort
+    option.type = "findOneAndReplace";
+    option.criteria = { resortId: resortId };
+    resortRecord.tucao[tucaoRecord.totalRating - 1]--;
+    resortRecord.funTucao[tucaoRecord.ratings.fun - 1]--;
+    resortRecord.eatTucao[tucaoRecord.ratings.eat - 1]--;
+    resortRecord.lodgeTucao[tucaoRecord.ratings.lodge - 1]--;
+    resortRecord.travelTucao[tucaoRecord.ratings.travel - 1]--;
+    resortRecord.shoppingTucao[tucaoRecord.ratings.shopping - 1]--;
+    resortRecord.otherTucao[tucaoRecord.ratings.other - 1]--;
+    resortRecord.modified = option.curDate;
+    option.replace = resortRecord;
+    result = await dbUtil(db, option);
+  }
+  // 5. return this tucao id
   return tucaoId;
 }
 
@@ -100,24 +184,24 @@ async function commentTucao(db, option) {
   option.type = "insertOne";
   let result = await dbUtil(db, option);
   const commentId = result.insertedId;
-  log.info("New created comment _id: " + commentId);
+  log.info("New created comment object id: " + commentId);
 
   // 2. update the corresponding tucao
   // 2.1 find the tucao
-  const tucaoId = option.id;
+  const tucaoId = option.tucaoId;
   option.type = "find";
-  option.query = { _id: util.getObjectId(tucaoId) };
+  option.query = { tucaoId: tucaoId };
   option.collection = option.tucaoCol;
   result = await dbUtil(db, option);
   const tucaoRecord = result[0];
   // 2.2 push the comment into this tucao
   option.type = "findOneAndReplace";
-  option.criteria = { _id: util.getObjectId(tucaoId) };
+  option.criteria = { tucaoId: tucaoId };
   tucaoRecord.comments.push(option.record);
   tucaoRecord.modified = option.curDate;
   option.replace = tucaoRecord;
   result = await dbUtil(db, option);
-  // 3. return _id of this comment
+  // 3. return object id of this comment
   return commentId;
 }
 
@@ -126,15 +210,15 @@ async function commentTucao(db, option) {
 // 2. update the tucao by incrementing its like
 async function likeTucao(db, option) {
   // 1. find the tucao
-  const tucaoId = option.id;
+  const tucaoId = option.tucaoId;
   option.type = "find";
-  option.query = { _id: util.getObjectId(tucaoId) };
+  option.query = { tucaoId: tucaoId };
   option.collection = option.collection;
   let result = await dbUtil(db, option);
   const tucaoRecord = result[0];
   // 2. increment the like for this tucao
   option.type = "findOneAndReplace";
-  option.criteria = { _id: util.getObjectId(tucaoId) };
+  option.criteria = { tucaoId: tucaoId };
   tucaoRecord.like++;
   tucaoRecord.modified = option.curDate;
   option.replace = tucaoRecord;
@@ -146,6 +230,7 @@ async function likeTucao(db, option) {
 
 module.exports = {
   insertTucao,
+  deleteTucao,
   likeTucao,
   commentTucao
 };
