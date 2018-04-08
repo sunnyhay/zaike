@@ -175,6 +175,8 @@ async function deleteTucao(db, option) {
   return tucaoId;
 }
 
+// TODO: update a tucao
+
 // given a comment, need to do the following jobs
 // 1. add it into comment table;
 // 2. add it to the tucao's comments array, update modified time.

@@ -8,6 +8,7 @@ const logger = require("../lib/logger");
 const log = logger.getLogger("user-routes");
 const dbUtil = require("../lib/db-util");
 const api = require("../api/common-api");
+const userApi = require("../api/user-api");
 const util = require("../lib/util");
 
 
@@ -21,12 +22,12 @@ module.exports = function (option) {
   const config = option.config;
   // target table
   const user_table = config.dev_env.db.user_table;
-  const collection = db.collection(user_table);
+  const userCol = db.collection(user_table);
 
   router.get("/", (req, res) => {
     // Find some documents
     const option = {
-      collection: collection,
+      collection: userCol,
       query: {},
       type: "find"
     };
@@ -38,6 +39,7 @@ module.exports = function (option) {
   });
 
   /*
+   add a new user
   用户的entry含一个关注景区或城市的数组，由一个全局的常量来控制最多关注的数量比如5个，
   也含有一个吐槽的数组，昵称，用户名，注册邮件，吐槽数量和等级。
   */
@@ -45,29 +47,29 @@ module.exports = function (option) {
   router.post("/", (req, res) => {
     let record = req.body;
     record = util.setRecordDate(record);
-    log.info(record);
 
-    const option = {
+    const apiOption = {
       curDate: record.modified,
       config: config,
-      collection: collection,
+      collection: userCol,
       record: record,
       type: "insertOne"
     };
 
-    dbUtil(db, option).then(result => {
-      res.send(result);
+    userApi.insertUser(db, apiOption).then(result => {
+      res.json(result);
     }).catch(err => {
       res.send(err);
     });
   });
 
+  // update a user
   router.post("/:id", (req, res) => {
     const id = parseInt(req.params.id);
     log.info("Updating User: " + id);
 
     const option = {
-      collection: collection,
+      collection: userCol,
       criteria: {
         id: id
       },
