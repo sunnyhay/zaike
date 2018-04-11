@@ -10,7 +10,9 @@
       "province_table": "province",
       "resort_table": "resort",
       "user_table": "user",
-      "comment_table": "comment"
+      "comment_table": "comment",
+      "news_table": "news",
+      "image_table": "image"
     },
     "user_levels": [
       {

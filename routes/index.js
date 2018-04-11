@@ -2,9 +2,11 @@
 module.exports = function (app, dbs) {
   const db = dbs.dev;
   const config = app.get("globalConfig");
+  const imageInfo = app.get("imageInfo");
   const option = {
     db: db,
-    config: config
+    config: config,
+    imageInfo: imageInfo
   };
   const tucaoRouter = require("./tucao")(option);
   const cityRouter = require("./city")(option);
@@ -12,6 +14,8 @@ module.exports = function (app, dbs) {
   const resortRouter = require("./resort")(option);
   const userRouter = require("./user")(option);
   const adminRouter = require("./admin")(option);
+  const newsRouter = require("./news")(option);
+  const imageRouter = require("./image")(option);
 
   // add more middleware
   app.use("/tucao", tucaoRouter);
@@ -20,6 +24,8 @@ module.exports = function (app, dbs) {
   app.use("/resort", resortRouter);
   app.use("/user", userRouter);
   app.use("/admin", adminRouter);
+  app.use("/news", newsRouter);
+  app.use("/image", imageRouter);
 
   return app;
 };

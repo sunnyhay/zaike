@@ -33,8 +33,14 @@ app.use(session({
 
 // initialize database and then start the server
 initDatabases().then(dbs => {
+  // TODO: load images meta data
+  app.set("imageInfo", {
+    "images": "all"
+  });
   // Initialize the application once database connections are ready.
-  routes(app, dbs).listen(port, () => log.info(`Listening on port ${port}`));
+  routes(app, dbs).listen(port, () => {
+    log.info(`Listening on port ${port}`);
+  });
 }).catch(err => {
   log.error("Failed to make all database connections!");
   log.error(err);
