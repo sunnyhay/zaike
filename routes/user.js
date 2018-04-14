@@ -89,5 +89,27 @@ module.exports = function (option) {
     });
   });
 
+  // update a user's interest array
+  router.post("/:id/interest", (req, res) => {
+    let record = req.body;
+    record = util.setRecordDate(record);
+    const userId = req.params.id;
+    log.info("Updating User Interest: " + userId);
+
+    const apiOption = {
+      curDate: record.modified,
+      collection: userCol,
+      userId: userId,
+      record: record,
+      type: "updateInterest"
+    };
+
+    userApi.updateInterest(db, apiOption).then(result => {
+      res.json(result);
+    }).catch(err => {
+      res.send(err);
+    });
+  });
+
   return router;
 };

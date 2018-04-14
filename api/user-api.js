@@ -3,6 +3,7 @@
 const logger = require("../lib/logger");
 const log = logger.getLogger("user-api");
 const dbUtil = require("../lib/db-util");
+const util = require("../lib/util");
 
 // TODO: introduce an integrated oauth2 user management
 
@@ -35,8 +36,31 @@ async function updateUser(db, option) {
   return result;
 }
 
+// update a user's interest
+// 1. read the user
+// 2. update the user's interest
+async function updateInterest(db, option) {
+  // 1 find the user
+  option.type = "find";
+  option.query = { userId: option.userId };
+  let result = await dbUtil(db, option);
+  const userRecord = result[0];
+  // 2 update the user
+  option.type = "findOneAndReplace";
+  option.criteria = { userId: option.userId };
+  log.info("current user interest: " + JSON.stringify(userRecord.interest));
+  log.info("new interest: " + JSON.stringify(option.record));
+  userRecord.interest = util.mergeArrays(userRecord.interest, option.record);
+  userRecord.modified = option.curDate;
+  option.replace = userRecord;
+  result = await dbUtil(db, option);
+  log.info("Update current user interest: " + result);
+  return result;
+}
+
 
 module.exports = {
   updateUser,
-  insertUser
+  insertUser,
+  updateInterest
 };
