@@ -14,7 +14,6 @@ async function insertImage(db, option) {
   const imageObj = fs.readFileSync(imagePath);
   // encode the file as a base64 string.
   const encImg = imageObj.toString("base64");
-  option.type = "insertOne";
   option.record.id = uuidv4();
   option.record.img = Buffer(encImg, "base64");
   let result = await dbUtil(db, option);

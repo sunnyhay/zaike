@@ -2,11 +2,9 @@
 module.exports = function (app, dbs) {
   const db = dbs.dev;
   const config = app.get("globalConfig");
-  const imageInfo = app.get("imageInfo");
   const option = {
     db: db,
-    config: config,
-    imageInfo: imageInfo
+    config: config
   };
   const tucaoRouter = require("./tucao")(option);
   const cityRouter = require("./city")(option);

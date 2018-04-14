@@ -19,7 +19,6 @@ module.exports = function (option) {
   // });
   const db = option.db;
   const config = option.config;
-  const imageInfo = option.imageInfo;
   // target table
   const news_table = config.dev_env.db.news_table;
   const collection = db.collection(news_table);
@@ -32,9 +31,7 @@ module.exports = function (option) {
       type: "find"
     };
     api.find(db, option).then(result => {
-      log.info(imageInfo);
-      res.setHeader("content-type", result[0].contentType);
-      res.send(result[0].img.buffer);
+      res.send(result);
     }).catch(err => {
       res.send(err);
     });

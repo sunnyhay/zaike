@@ -33,10 +33,6 @@ app.use(session({
 
 // initialize database and then start the server
 initDatabases().then(dbs => {
-  // TODO: load images meta data
-  app.set("imageInfo", {
-    "images": "all"
-  });
   // Initialize the application once database connections are ready.
   routes(app, dbs).listen(port, () => {
     log.info(`Listening on port ${port}`);
