@@ -1,9 +1,10 @@
 
-module.exports = function (app, dbs) {
+module.exports = function (app, dbs, client) {
   const db = dbs.dev;
   const config = app.get("globalConfig");
   const option = {
     db: db,
+    redisClient: client,
     config: config
   };
   const tucaoRouter = require("./tucao")(option);

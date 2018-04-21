@@ -122,6 +122,8 @@ async function deleteTucao(db, option) {
   option.type = "findOneAndReplace";
   option.criteria = { userId: userId };
   userRecord.tucao = util.removeArrElem(userRecord.tucao, "tucaoId", tucaoId);
+  // decrement the tucao numbe for this user but DO NOT DEGRADE the user's level
+  userRecord.tucaoNum = userRecord.tucaoNum - 1;
   userRecord.modified = option.curDate;
   option.replace = userRecord;
   result = await dbUtil(db, option);

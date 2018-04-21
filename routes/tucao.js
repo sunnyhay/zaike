@@ -12,11 +12,14 @@ const util = require("../lib/util");
 
 module.exports = function (option) {
   // middleware that is specific to this router
-  // router.use(function (req, res, next) {
-  //   log.log("Time: ", Date.now());
-  //   next();
-  // });
+  router.use(function (req, res, next) {
+    redisClient.get("tucaoNum", (err, result) => {
+      log.debug("Now the number of tucao in cache: " + result);
+    });
+    next();
+  });
   const db = option.db;
+  const redisClient = option.redisClient;
   const config = option.config;
   // target table
   const tucao_table = config.dev_env.db.tucao_table;
@@ -79,6 +82,7 @@ module.exports = function (option) {
       resortCol: resortCol,
       record: record
     };
+    redisClient.incr("tucaoNum");
 
     tucaoApi.insertTucao(db, apiOption).then(result => {
       res.json(result);
@@ -97,6 +101,7 @@ module.exports = function (option) {
       cityCol: cityCol,
       resortCol: resortCol
     };
+    redisClient.decr("tucaoNum");
 
     tucaoApi.deleteTucao(db, apiOption).then(result => {
       res.json(result);
