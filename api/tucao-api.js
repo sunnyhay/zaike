@@ -11,7 +11,7 @@ const util = require("../lib/util");
 // 3. update city's tucao and other minor-tucao arrays, update modified time.
 // 4. if resort is not null, update resort's tucao and other minor-tucao arrays, update modified time.
 // 5. return the tucao's _id to sender (android app)
-async function insertTucao(db, option) {
+async function insertTucao(db, redisClient, option) {
   const config = option.config;
 
   // 1. insert tucao
@@ -63,6 +63,17 @@ async function insertTucao(db, option) {
   cityRecord.modified = option.curDate;
   option.replace = cityRecord;
   result = await dbUtil(db, option);
+  // 3.3 update the city object in the cache
+  redisClient.get(cityId, (err, cachedRecord) => {
+    cachedRecord.tucao[option.record.totalRating - 1]++;
+    cachedRecord.funTucao[option.record.ratings.fun - 1]++;
+    cachedRecord.eatTucao[option.record.ratings.eat - 1]++;
+    cachedRecord.lodgeTucao[option.record.ratings.lodge - 1]++;
+    cachedRecord.travelTucao[option.record.ratings.travel - 1]++;
+    cachedRecord.shoppingTucao[option.record.ratings.shopping - 1]++;
+    cachedRecord.otherTucao[option.record.ratings.other - 1]++;
+    redisClient.set(cityId, cachedRecord);
+  });
 
   // 4. if possible update the resort
   if (option.record.resortId !== null) {
@@ -86,6 +97,17 @@ async function insertTucao(db, option) {
     resortRecord.modified = option.curDate;
     option.replace = resortRecord;
     result = await dbUtil(db, option);
+    // 4.3 update the resort object in the cache
+    redisClient.get(resortId, (err, cachedRecord) => {
+      cachedRecord.tucao[option.record.totalRating - 1]++;
+      cachedRecord.funTucao[option.record.ratings.fun - 1]++;
+      cachedRecord.eatTucao[option.record.ratings.eat - 1]++;
+      cachedRecord.lodgeTucao[option.record.ratings.lodge - 1]++;
+      cachedRecord.travelTucao[option.record.ratings.travel - 1]++;
+      cachedRecord.shoppingTucao[option.record.ratings.shopping - 1]++;
+      cachedRecord.otherTucao[option.record.ratings.other - 1]++;
+      redisClient.set(resortId, cachedRecord);
+    });
   }
   // 5. return object id of this tucao. actually do not use the this
   return objectId;
@@ -97,7 +119,7 @@ async function insertTucao(db, option) {
 // 3. update city's tucao and other minor-tucao arrays, update modified time.
 // 4. if resort is not null, update resort's tucao and other minor-tucao arrays, update modified time.
 // 5. return the tucao's _id to sender (android app)
-async function deleteTucao(db, option) {
+async function deleteTucao(db, redisClient, option) {
   // 1. read the tucao and delete it from tucao table
   // 1.1 get the tucao
   const tucaoId = option.tucaoId;
@@ -149,6 +171,17 @@ async function deleteTucao(db, option) {
   cityRecord.modified = option.curDate;
   option.replace = cityRecord;
   result = await dbUtil(db, option);
+  // 3.3 update the city object in the cache
+  redisClient.get(cityId, (err, cachedRecord) => {
+    cachedRecord.tucao[option.record.totalRating - 1]--;
+    cachedRecord.funTucao[option.record.ratings.fun - 1]--;
+    cachedRecord.eatTucao[option.record.ratings.eat - 1]--;
+    cachedRecord.lodgeTucao[option.record.ratings.lodge - 1]--;
+    cachedRecord.travelTucao[option.record.ratings.travel - 1]--;
+    cachedRecord.shoppingTucao[option.record.ratings.shopping - 1]--;
+    cachedRecord.otherTucao[option.record.ratings.other - 1]--;
+    redisClient.set(cityId, cachedRecord);
+  });
 
   // 4. if possible update the resort
   if (tucaoRecord.resortId !== null) {
@@ -172,6 +205,17 @@ async function deleteTucao(db, option) {
     resortRecord.modified = option.curDate;
     option.replace = resortRecord;
     result = await dbUtil(db, option);
+    // 4.3 update the resort object in the cache
+    redisClient.get(resortId, (err, cachedRecord) => {
+      cachedRecord.tucao[option.record.totalRating - 1]--;
+      cachedRecord.funTucao[option.record.ratings.fun - 1]--;
+      cachedRecord.eatTucao[option.record.ratings.eat - 1]--;
+      cachedRecord.lodgeTucao[option.record.ratings.lodge - 1]--;
+      cachedRecord.travelTucao[option.record.ratings.travel - 1]--;
+      cachedRecord.shoppingTucao[option.record.ratings.shopping - 1]--;
+      cachedRecord.otherTucao[option.record.ratings.other - 1]--;
+      redisClient.set(resortId, cachedRecord);
+    });
   }
   // 5. return this tucao id
   return tucaoId;

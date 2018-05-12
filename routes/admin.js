@@ -16,16 +16,19 @@ module.exports = function (option) {
   //   next();
   // });
   const db = option.db;
+  const redisClient = option.redisClient;
   const config = option.config;
   // target table
   const tucao_table = config.dev_env.db.tucao_table;
   const user_table = config.dev_env.db.user_table;
+  const province_table = config.dev_env.db.province_table;
   const city_table = config.dev_env.db.city_table;
   const resort_table = config.dev_env.db.resort_table;
   const comment_table = config.dev_env.db.comment_table;
 
   const tucaoCol = db.collection(tucao_table);
   const userCol = db.collection(user_table);
+  const provinceCol = db.collection(province_table);
   const cityCol = db.collection(city_table);
   const resortCol = db.collection(resort_table);
   const commentCol = db.collection(comment_table);
@@ -58,5 +61,24 @@ module.exports = function (option) {
     });
   });
 
+  router.get("/init-model", (req, res) => {
+    const apiOption = {
+      tucaoCol,
+      userCol,
+      provinceCol,
+      cityCol,
+      resortCol
+    };
+    log.info("Now initialize all the tables under admin account!");
+
+    adminApi.initModel(db, redisClient, apiOption).then(result => {
+      res.json(result);
+    }).catch(err => {
+      res.send(err);
+    });
+  });
+
   return router;
 };
+
+

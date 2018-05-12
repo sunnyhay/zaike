@@ -1,0 +1,177 @@
+[
+  {
+    "cityId": 20,
+    "cityName": "西安",
+    "provinceId": 1,
+    "provinceName": "陕西",
+    "tucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "funTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "eatTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "lodgeTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "travelTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "shoppingTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "otherTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "desc": "肉夹馍的故乡",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "labels": [],
+    "latitude": 0,
+    "longitude": 0,
+    "resorts": []
+  },
+  {
+    "cityId": 1,
+    "cityName": "北京",
+    "provinceId": 2,
+    "provinceName": "北京",
+    "tucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "eatTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "lodgeTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "travelTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "shoppingTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "otherTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "desc": "首都",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "labels": [],
+    "latitude": 0,
+    "longitude": 0,
+    "resorts": []
+  },
+  {
+    "cityId": 21,
+    "cityName": "延安",
+    "provinceId": 1,
+    "provinceName": "陕西",
+    "tucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "eatTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "lodgeTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "travelTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "shoppingTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "otherTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "desc": "老区圣地",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "labels": [],
+    "latitude": 0,
+    "longitude": 0,
+    "resorts": []
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "provinceId": 1,
+    "provinceName": "陕西",
+    "country": "中国",
+    "desc": "兵马俑的故乡",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "cities": []
+  },
+  {
+    "provinceId": 2,
+    "provinceName": "北京",
+    "country": "中国",
+    "desc": "帝都",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "cities": []
+  }
+]

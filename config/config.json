@@ -14,6 +14,13 @@
       "news_table": "news",
       "image_table": "image"
     },
+    "cache": {
+      "table": [
+        "province",
+        "city",
+        "resort"
+      ]
+    },
     "user_levels": [
       {
         "name": "布衣",

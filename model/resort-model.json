@@ -1,0 +1,304 @@
+[
+  {
+    "resortId": 10001,
+    "resortName": "兵马俑",
+    "cityId": 20,
+    "cityName": "西安",
+    "tucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "provinceId": 1,
+    "provinceName": "陕西",
+    "eatTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "lodgeTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "travelTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "shoppingTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "otherTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "desc": "秦始皇陵墓",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "labels": [
+      "relic"
+    ],
+    "latitude": 0,
+    "longitude": 0
+  },
+  {
+    "resortId": 10002,
+    "resortName": "大雁塔",
+    "cityId": 20,
+    "cityName": "西安",
+    "provinceId": 1,
+    "provinceName": "陕西",
+    "tucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "funTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "eatTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "lodgeTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "travelTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "shoppingTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "otherTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "desc": "玄奘法师的住所",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "labels": [
+      "relic"
+    ],
+    "latitude": 0,
+    "longitude": 0
+  },
+  {
+    "resortId": 10003,
+    "resortName": "钟楼",
+    "cityId": 20,
+    "cityName": "西安",
+    "provinceId": 1,
+    "provinceName": "陕西",
+    "tucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "eatTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "lodgeTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "travelTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "shoppingTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "otherTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "desc": "在市中心",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "labels": [
+      "relic"
+    ],
+    "latitude": 0,
+    "longitude": 0
+  },
+  {
+    "resortId": 10004,
+    "resortName": "故宫",
+    "cityId": 1,
+    "cityName": "北京",
+    "provinceId": 2,
+    "provinceName": "北京",
+    "tucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "eatTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "lodgeTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "travelTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "shoppingTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "otherTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "desc": "在市中心",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "labels": [
+      "relic"
+    ],
+    "latitude": 0,
+    "longitude": 0
+  },
+  {
+    "resortId": 10005,
+    "resortName": "宝塔山",
+    "cityId": 21,
+    "cityName": "延安",
+    "provinceId": 1,
+    "provinceName": "陕西",
+    "tucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "eatTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "lodgeTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "travelTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "shoppingTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "otherTucao": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "desc": "延河边上",
+    "pics": [],
+    "contact": [],
+    "complaint": [],
+    "labels": [
+      "hill"
+    ],
+    "latitude": 0,
+    "longitude": 0
+  }
+]

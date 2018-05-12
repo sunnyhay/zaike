@@ -1,11 +1,11 @@
 
-module.exports = function (app, dbs, client) {
+module.exports = function (app, dbs, redisClient) {
   const db = dbs.dev;
   const config = app.get("globalConfig");
   const option = {
-    db: db,
-    redisClient: client,
-    config: config
+    db,
+    redisClient,
+    config
   };
   const tucaoRouter = require("./tucao")(option);
   const cityRouter = require("./city")(option);
@@ -15,6 +15,7 @@ module.exports = function (app, dbs, client) {
   const adminRouter = require("./admin")(option);
   const newsRouter = require("./news")(option);
   const imageRouter = require("./image")(option);
+  const cacheRouter = require("./cache")(option);
 
   // add more middleware
   app.use("/tucao", tucaoRouter);
@@ -25,6 +26,7 @@ module.exports = function (app, dbs, client) {
   app.use("/admin", adminRouter);
   app.use("/news", newsRouter);
   app.use("/image", imageRouter);
+  app.use("/cache", cacheRouter);
 
   return app;
 };

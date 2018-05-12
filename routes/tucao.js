@@ -12,12 +12,12 @@ const util = require("../lib/util");
 
 module.exports = function (option) {
   // middleware that is specific to this router
-  router.use(function (req, res, next) {
-    redisClient.get("tucaoNum", (err, result) => {
-      log.debug("Now the number of tucao in cache: " + result);
-    });
-    next();
-  });
+  // router.use(function (req, res, next) {
+  //   redisClient.get("tucaoNum", (err, result) => {
+  //     log.debug("Now the number of tucao in cache: " + result);
+  //   });
+  //   next();
+  // });
   const db = option.db;
   const redisClient = option.redisClient;
   const config = option.config;
@@ -82,9 +82,8 @@ module.exports = function (option) {
       resortCol: resortCol,
       record: record
     };
-    redisClient.incr("tucaoNum");
 
-    tucaoApi.insertTucao(db, apiOption).then(result => {
+    tucaoApi.insertTucao(db, redisClient, apiOption).then(result => {
       res.json(result);
     }).catch(err => {
       res.send(err);
@@ -101,9 +100,8 @@ module.exports = function (option) {
       cityCol: cityCol,
       resortCol: resortCol
     };
-    redisClient.decr("tucaoNum");
 
-    tucaoApi.deleteTucao(db, apiOption).then(result => {
+    tucaoApi.deleteTucao(db, redisClient, apiOption).then(result => {
       res.json(result);
     }).catch(err => {
       res.send(err);
